@@ -1,5 +1,8 @@
-class XorEnvironment {
+const Environment = require("./environment");
+
+class XorEnvironment extends Environment {
     constructor() {
+        super();
         // this.observations = [Math.round(Math.random()), Math.round(Math.random())];
         this.observacion_space = 2;
         this.observations = new Array(this.observacion_space).fill(0);
@@ -15,10 +18,6 @@ class XorEnvironment {
 
     getObservations() {
         return this.observations;
-    }
-
-    translateAction(action, actions) {
-        return actions[action];
     }
 
     step(action) {
@@ -47,4 +46,4 @@ class XorEnvironment {
     }
 }
 
-module.exports = { XorEnvironment: XorEnvironment }
+module.exports = XorEnvironment;

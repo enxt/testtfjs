@@ -37,28 +37,44 @@ function make_model(lr, numobservations, numactions) {
     model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(lr) });
     return model
 }
-// Sarsa agent
-class Agent {
-    constructor(env) {
-        this.env = env;
-        this.discount_factor = 0.9
-        this.learning_rate = 0.001
 
-        this.epsilon_decay = 0.9998
-        this.epsilon_min = 0.01
-        this.epsilon = 1.0
+let options = {
+    discount_factor: 0.9,
+    learning_rate: 0.001,
+    epsilon_decay: 0.9998,
+    epsilon_min: 0.01,
+    epsilon: 1.0
+};
+
+
+class Agent {
+    constructor(env, opts) {
+        this.env = env;
+        if(typeof opts != "undefined") {
+            for(var opt of Object.keys(opts)) {
+                if(options.hasOwnProperty(opt)) {
+                    options[opt] = opts[opt];
+                }
+            }
+        }
+        // this.discount_factor = 0.9
+        // this.learning_rate = 0.001
+
+        // this.epsilon_decay = 0.9998
+        // this.epsilon_min = 0.01
+        // this.epsilon = 1.0
         //////////////make model////////////////
         this.observations = env.getObservations();
         this.numObservations = this.observations.length;
         this.actions = env.getActions();
         this.numActions = this.actions.length;
-        this.model = make_model(this.learning_rate, this.numObservations, this.numActions);
+        this.model = make_model(options.learning_rate, this.numObservations, this.numActions);
         ////////////////////////////////////////
         this.num_frame = 0
     }
 
     async get_action(state) {
-        if (Math.random() <= this.epsilon) {
+        if (Math.random() <= options.epsilon) {
             return this.get_random_action(0, this.numActions - 1)
         }
         else {
@@ -74,8 +90,8 @@ class Agent {
     }
 
     async train_model(state, action, reward, next_state, next_action, done) {
-        if (this.epsilon > this.epsilon_min) {
-            this.epsilon *= this.epsilon_decay
+        if (options.epsilon > options.epsilon_min) {
+            options.epsilon *= options.epsilon_decay
         }
 
         state = makeInput(state, this.numObservations);
@@ -91,7 +107,7 @@ class Agent {
             q_res[action] = reward
         }
         else {
-            q_res[action] = reward + this.discount_factor * target_reward
+            q_res[action] = reward + options.discount_factor * target_reward
         }
 
         // q의 value update
@@ -139,4 +155,4 @@ class Agent {
     }
 }
 
-module.exports = { Agent: Agent };
+module.exports = Agent;
