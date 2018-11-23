@@ -62,7 +62,7 @@ class Trainer {
         agent.loadModel().then( () => {
             testdata.forEach(element => {
                 console.log("For element:", element);
-                await agent.predict(element);
+                agent.predict(element);
             });
             // agent.predict([0,0]);
             // agent.predict([1,0]);
