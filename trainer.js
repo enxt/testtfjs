@@ -35,7 +35,6 @@ class Trainer {
             
             while (!done) {
                 action = await agent.get_action(state)
-                // res = env.step(env.translateAction(action, env.getActions()));
                 res = env.step(translateAction(action));
                 data = res.observations;
                 reward = res.reward;
@@ -64,10 +63,6 @@ class Trainer {
                 console.log("For element:", element);
                 agent.predict(element);
             });
-            // agent.predict([0,0]);
-            // agent.predict([1,0]);
-            // agent.predict([0,1]);
-            // agent.predict([1,1]);
         });
         
     }

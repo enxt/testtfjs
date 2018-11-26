@@ -2,10 +2,6 @@ const tf = require("@tensorflow/tfjs");
 require('@tensorflow/tfjs-node')
 
 function makeInput(data, numobservations) {
-    // var input = tf.tensor3d(data, [1, this.height, this.width])
-    // var flatten = input.reshape([1, this.width * this.height])
-    // input.dispose()
-    // return flatten
     var input = tf.tensor2d(data, [1, numobservations]);
     return input;
 }
@@ -57,19 +53,11 @@ class Agent {
                 }
             }
         }
-        // this.discount_factor = 0.9
-        // this.learning_rate = 0.001
-
-        // this.epsilon_decay = 0.9998
-        // this.epsilon_min = 0.01
-        // this.epsilon = 1.0
-        //////////////make model////////////////
         this.observations = env.getObservations();
         this.numObservations = this.observations.length;
         this.actions = env.getActions();
         this.numActions = this.actions.length;
         this.model = make_model(options.learning_rate, this.numObservations, this.numActions);
-        ////////////////////////////////////////
         this.num_frame = 0
     }
 
@@ -110,7 +98,7 @@ class Agent {
             q_res[action] = reward + options.discount_factor * target_reward
         }
 
-        // q의 value update
+        // Q value update
         var res = Array.from(q_res);
         var q = tf.tensor2d(res, [1, this.numActions]);
 
@@ -119,7 +107,6 @@ class Agent {
         this.num_frame += 1
         if (this.num_frame % 100 == 0) {
             console.log("loss: " + h.history.loss[0]);
-            // log_area.scrollTop = log_area.scrollHeight;    
         }
         state.dispose()
         next_state.dispose()
@@ -133,12 +120,10 @@ class Agent {
     }
     
     async storemodel() {
-        // return await this.model.save('file:///Users/efernandez.adrados/Desarrollo/workspace-nodejs/testtfjs/mymodel');
         return await this.model.save('file://./mymodel');
     }
 
     async loadModel() {
-        // this.model = await tf.loadModel("file:///Users/efernandez.adrados/Desarrollo/workspace-nodejs/testtfjs/mymodel/model.json");
         this.model = await tf.loadModel("file://./mymodel/model.json");
     }
 

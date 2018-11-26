@@ -3,7 +3,6 @@ const Environment = require("./environment");
 class XorEnvironment extends Environment {
     constructor() {
         super();
-        // this.observations = [Math.round(Math.random()), Math.round(Math.random())];
         this.observacion_space = 2;
         this.observations = new Array(this.observacion_space).fill(0);
         this.actions = [0,1];
