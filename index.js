@@ -1,7 +1,7 @@
-const Agent = require("./agent"),
-      Trainer = require("./trainer"),
-      Utils = require("./utils"),
-      Environment = require("./environment");
+const Agent = require("./rl/agent"),
+      Trainer = require("./rl/trainer"),
+      Utils = require("./rl/utils"),
+      Environment = require("./rl/environment");
 
 
 module.exports = {
