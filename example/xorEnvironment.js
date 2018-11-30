@@ -1,10 +1,10 @@
 const Environment = require("../index").Environment;
 
 class XorEnvironment extends Environment {
-    constructor() {
-        super();
-        this.observacion_space = 2;
-        this.observations = new Array(this.observacion_space).fill(0);
+    constructor(numObservations) {
+        super(numObservations);
+        // this.observacion_space = 2;
+        this.observations = new Array(this.numObservations).fill(0);
         this.actions = [0,1];
         this.action_space = this.actions.length;
 
@@ -15,9 +15,9 @@ class XorEnvironment extends Environment {
         return this.actions;
     }
 
-    getObservations() {
-        return this.observations;
-    }
+    // getObservations() {
+    //     return this.observations;
+    // }
 
     step(action) {
         let done = false;

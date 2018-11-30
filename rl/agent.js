@@ -53,11 +53,11 @@ class Agent {
                 }
             }
         }
-        this.observations = env.getObservations();
-        this.numObservations = this.observations.length;
+        // this.observations = env.getObservations();
+        // this.numObservations = this.observations.length;
         this.actions = env.getActions();
         this.numActions = this.actions.length;
-        this.model = make_model(options.learning_rate, this.numObservations, this.numActions);
+        this.model = make_model(options.learning_rate, env.numObservations, this.numActions);
         this.num_frame = 0
     }
 
@@ -66,7 +66,7 @@ class Agent {
             return this.get_random_action(0, this.numActions - 1)
         }
         else {
-            var input_data = makeInput(state, this.numObservations);
+            var input_data = makeInput(state, this.env.numObservations);
             var result = this.model.predict(input_data);
 
             var action = (await result.argMax(1).data())[0]
@@ -82,8 +82,8 @@ class Agent {
             options.epsilon *= options.epsilon_decay
         }
 
-        state = makeInput(state, this.numObservations);
-        next_state = makeInput(next_state, this.numObservations);
+        state = makeInput(state, this.env.numObservations);
+        next_state = makeInput(next_state, this.env.numObservations);
 
         var target = this.model.predict(state)
         var target_val = this.model.predict(next_state)
@@ -128,7 +128,7 @@ class Agent {
     }
 
     async predict(state) {
-        var input_data = makeInput(state, this.numObservations);
+        var input_data = makeInput(state, this.env.numObservations);
         var result = this.model.predict(input_data);
         console.log("result:", result.dataSync());
 

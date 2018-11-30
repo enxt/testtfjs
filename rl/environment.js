@@ -1,14 +1,16 @@
 class Environment {
-    constructor() {
+    constructor(numObservations) {
+        this.numObservations = numObservations;
+        console.log("Environment parent");
     }
 
     getActions() {
         throw new Error("Implement the return of the actions. Ej: return this.actions;");
     }
 
-    getObservations() {
-        throw new Error("Implement the return of the observations. Ej. return this.observations;");
-    }
+    // getObservations() {
+    //     throw new Error("Implement the return of the observations. Ej. return this.observations;");
+    // }
 
     step(action) {
         let msg = "Implement the return of the object { observations, reward, done, info }.\n"

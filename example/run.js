@@ -1,7 +1,8 @@
 const t = require("../index"), // require("testtfjs")
       Environment = require("./xorEnvironment");
 
-var env = new Environment();
+const numObservations = 2;
+var env = new Environment(numObservations);
 var agent = new t.Agent(env);
 var trainer = new t.Trainer(agent, env);
 
