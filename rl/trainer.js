@@ -23,8 +23,9 @@ class Trainer {
         let data;
     
         for (var i_ep = 0; i_ep < num_ep; i_ep++) {
-            env.reset();
-            data = env.getObservations();
+            // env.reset();
+            // data = env.getObservations();
+            data = env.reset();
             var state = [u.arrayClone(data)];
             let action, res, info;
             var next_state;

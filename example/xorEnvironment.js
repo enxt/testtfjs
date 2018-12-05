@@ -36,12 +36,11 @@ class XorEnvironment extends Environment {
     }
 
     reset() {
-        this.observations = new Array(this.observacion_space).fill(0);
-        let observations = this.observations;
+        this.observations = new Array(this.numObservations).fill(0);
         this.totreward = 0;
 
         // return s
-        return observations;        
+        return this.observations;        
     }
 }
 
