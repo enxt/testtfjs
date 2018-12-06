@@ -37,6 +37,7 @@ class Trainer {
             while (!done) {
                 action = await agent.get_action(state)
                 res = env.step(translateAction(action));
+                console.log(res);
                 data = res.observations;
                 reward = res.reward;
                 done = res.done;
@@ -44,6 +45,7 @@ class Trainer {
                 next_state = [u.arrayClone(data)];
                 next_action = await agent.get_action(next_state)
     
+                console.log("train_model", "state", state, "nextstate", next_state);
                 await agent.train_model(state, action, reward, next_state, next_action, done)
     
                 state = [u.arrayClone(data)]
