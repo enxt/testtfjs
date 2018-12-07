@@ -39,7 +39,10 @@ let options = {
     learning_rate: 0.001,
     epsilon_decay: 0.9998,
     epsilon_min: 0.01,
-    epsilon: 1.0
+    epsilon: 1.0,
+
+    modelFolder: 'mymodel',
+    modelName: 'model'
 };
 
 
@@ -120,11 +123,19 @@ class Agent {
     }
     
     async storemodel() {
-        return await this.model.save('file://./mymodel');
+        return await this.model.save('file://./' + options.modelFolder);
     }
 
-    async loadModel() {
-        this.model = await tf.loadModel("file://./mymodel/model.json");
+    async loadModel(required = false) {
+        try {
+            this.model = await tf.loadModel("file://./" + options.modelFolder + "/model.json");
+        } catch(error) {
+            if(!required) {
+                console.log(error);
+            } else {
+                throw new Error(error);
+            }
+        }
     }
 
     async predict(state) {

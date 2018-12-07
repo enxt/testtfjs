@@ -19,8 +19,11 @@ class Trainer {
         actions = env.getActions();
     }
 
-    async train(num_ep = 50) {
+    async train(num_ep = 50, loadModelIfExist = true) {
         let data;
+        if(loadModelIfExist) {
+            agent.loadModel(false);
+        }
     
         for (var i_ep = 0; i_ep < num_ep; i_ep++) {
             // env.reset();
@@ -58,7 +61,7 @@ class Trainer {
     }
 
     async test(agent, testdata) {
-        agent.loadModel().then( () => {
+        agent.loadModel(true).then( () => {
             testdata.forEach(element => {
                 console.log("For element:", element);
                 agent.predict(element);
