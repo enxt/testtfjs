@@ -41,6 +41,8 @@ let options = {
     epsilon_min: 0.01,
     epsilon: 1.0,
 
+    losslog: 100, // Every frames want loss log
+
     modelFolder: 'mymodel',
     modelName: 'model'
 };
@@ -108,7 +110,7 @@ class Agent {
         const h = await this.model.fit(state, q, { epoch: 1, verbose: 0 })
 
         this.num_frame += 1
-        if (this.num_frame % 100 == 0) {
+        if (this.num_frame % options.losslog == 0) {
             console.log("loss: " + h.history.loss[0]);
         }
         state.dispose()
@@ -127,8 +129,10 @@ class Agent {
     }
 
     async loadModel(required = false) {
+        console.log("Cargando modelo");
         try {
             this.model = await tf.loadModel("file://./" + options.modelFolder + "/model.json");
+            this.model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(options.learning_rate) });
         } catch(error) {
             if(!required) {
                 console.log(error);

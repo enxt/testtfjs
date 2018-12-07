@@ -22,7 +22,7 @@ class Trainer {
     async train(num_ep = 50, loadModelIfExist = true) {
         let data;
         if(loadModelIfExist) {
-            agent.loadModel(false);
+            await agent.loadModel(false);
         }
     
         for (var i_ep = 0; i_ep < num_ep; i_ep++) {
