@@ -31,7 +31,7 @@ function make_model(lr, numobservations, numactions) {
         activation: 'linear'
     }))
     model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(lr) });
-    return model
+    return model;
 }
 
 let options = {
@@ -90,8 +90,8 @@ class Agent {
         state = makeInput(state, this.env.numObservations);
         next_state = makeInput(next_state, this.env.numObservations);
 
-        var target = this.model.predict(state)
-        var target_val = this.model.predict(next_state)
+        var target = this.model.predict(state);
+        var target_val = this.model.predict(next_state);
 
         var q_res = await target.data()
         var target_reward = (await target_val.data())
