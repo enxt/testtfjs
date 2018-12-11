@@ -1,3 +1,4 @@
+const fs = require('fs');
 const tf = require("@tensorflow/tfjs");
 require('@tensorflow/tfjs-node')
 
@@ -130,14 +131,16 @@ class Agent {
 
     async loadModel(required = false) {
         console.log("Cargando modelo");
-        try {
-            this.model = await tf.loadModel("file://./" + options.modelFolder + "/model.json");
-            this.model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(options.learning_rate) });
-        } catch(error) {
-            if(!required) {
-                console.log(error);
-            } else {
-                throw new Error(error);
+        if(fs.existsSync("./" + options.modelFolder) && fs.existsSync("./" + options.modelFolder + "/model.json")) {
+            try {
+                this.model = await tf.loadModel("file://./" + options.modelFolder + "/model.json");
+                this.model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(options.learning_rate) });
+            } catch(error) {
+                if(!required) {
+                    console.log(error);
+                } else {
+                    throw new Error(error);
+                }
             }
         }
     }
